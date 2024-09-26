@@ -1,13 +1,13 @@
 FROM gradle:8.5.0-jdk21
 
 
-WORKDIR /app
+WORKDIR /
 
-COPY app/src src
+COPY /src src
 
 ENV JAVA_OPTS "-Xmx512M -Xms512M"
 
-COPY app/. .
+COPY /.
 
 RUN gradle installDist
 
