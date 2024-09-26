@@ -7,7 +7,7 @@ COPY /src src
 
 ENV JAVA_OPTS "-Xmx512M -Xms512M"
 
-COPY /.
+COPY / .
 
 RUN gradle installDist
 
