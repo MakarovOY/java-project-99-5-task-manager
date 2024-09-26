@@ -4,6 +4,7 @@ import hexlet.code.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -46,6 +47,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Разрешаем доступ только к /api/login, чтобы аутентифицироваться и получить токен
                         .requestMatchers("/api/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/welcome").permitAll()
+                        .requestMatchers("/api/task_statuses").permitAll()
+                        .requestMatchers("/api/tasks").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer((rs) -> rs.jwt((jwt) -> jwt.decoder(jwtDecoder)))
