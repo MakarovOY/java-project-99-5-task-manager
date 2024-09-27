@@ -1,7 +1,9 @@
 package hexlet.code.component;
 
 import hexlet.code.dto.TaskStatusCreatedDTO;
+import hexlet.code.model.Label;
 import hexlet.code.model.User;
+import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.CustomUserDetailsService;
 import hexlet.code.service.TaskStatusService;
@@ -19,6 +21,7 @@ public class DataInitializer implements ApplicationRunner {
 
     private final CustomUserDetailsService userService;
     private final TaskStatusService taskStatusService;
+    private final LabelRepository labelRepository;
 
 
     @Override
@@ -54,6 +57,14 @@ public class DataInitializer implements ApplicationRunner {
         statusPublished.setName("published");
         statusPublished.setSlug("published");
         taskStatusService.create(statusPublished);
+
+        Label labelFeature = new Label();
+        labelFeature.setName("feature");
+        labelRepository.save(labelFeature);
+
+        Label labelBug = new Label();
+        labelBug.setName("bug");
+        labelRepository.save(labelBug);
 
     }
 

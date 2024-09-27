@@ -1,9 +1,9 @@
 package hexlet.code.service;
 
 
-import hexlet.code.dto.TaskCreatedDTO;
+import hexlet.code.dto.TaskCreateDTO;
 import hexlet.code.dto.TaskDTO;
-import hexlet.code.dto.TaskUpdatedDTO;
+import hexlet.code.dto.TaskUpdateDTO;
 import hexlet.code.mapper.TaskMapper;
 import hexlet.code.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +31,13 @@ public class TaskService {
         return taskMapper.map(task);
     }
 
-    public TaskDTO create(TaskCreatedDTO data) {
+    public TaskDTO create(TaskCreateDTO data) {
         var task = taskMapper.map(data);
         taskRepository.save(task);
         return taskMapper.map(task);
     }
 
-    public TaskDTO updated(TaskUpdatedDTO data, Long id) {
+    public TaskDTO updated(TaskUpdateDTO data, Long id) {
         var task =  taskRepository.findById(id)
                 .orElseThrow();
         taskMapper.updated(data, task);

@@ -48,8 +48,11 @@ public class SecurityConfig {
                         // Разрешаем доступ только к /api/login, чтобы аутентифицироваться и получить токен
                         .requestMatchers("/api/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/welcome").permitAll()
-                        .requestMatchers("/api/task_statuses").permitAll()
+//                        .requestMatchers("/api/task_statuses").permitAll()
                         .requestMatchers("/api/tasks").permitAll()
+//                        .requestMatchers("/api/tasks/{id}").permitAll()
+                        .requestMatchers("/api/labels").permitAll()
+                        .requestMatchers("/api/labels/{id}").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer((rs) -> rs.jwt((jwt) -> jwt.decoder(jwtDecoder)))

@@ -3,7 +3,7 @@ package hexlet.code.service;
 
 import hexlet.code.dto.TaskStatusCreatedDTO;
 import hexlet.code.dto.TaskStatusDTO;
-import hexlet.code.dto.TaskStatusUpdatedDTO;
+import hexlet.code.dto.TaskStatusUpdateDTO;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.repository.TaskStatusRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class TaskStatusService {
         return mapper.map(taskStatus);
     }
 
-    public TaskStatusDTO update(TaskStatusUpdatedDTO data, Long id) {
+    public TaskStatusDTO update(TaskStatusUpdateDTO data, Long id) {
         var taskStatus = repository.findById(id)
                 .orElseThrow();
         mapper.update(data, taskStatus);
