@@ -3,9 +3,11 @@ package hexlet.code.service;
 
 import hexlet.code.dto.TaskCreateDTO;
 import hexlet.code.dto.TaskDTO;
+import hexlet.code.dto.TaskParamsDTO;
 import hexlet.code.dto.TaskUpdateDTO;
 import hexlet.code.mapper.TaskMapper;
 import hexlet.code.repository.TaskRepository;
+import hexlet.code.specification.TaskSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,12 @@ import java.util.List;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+    private final TaskSpecification taskSpecification;
 
 
-    public List<TaskDTO> getAll() {
-        var tasks = taskRepository.findAll();
+    public List<TaskDTO> getAll(TaskParamsDTO params) {
+        var taskSpec = taskSpecification.build(params);
+        var tasks = taskRepository.findAll(taskSpec);
         return tasks.stream().map(taskMapper::map)
                 .toList();
     }

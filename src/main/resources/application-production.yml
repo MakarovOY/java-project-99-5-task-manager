@@ -1,5 +1,5 @@
 spring:
   datasource:
-    password: ORqFjIYBdeVO8JVdBGgAs2kkJH9mGqpx
-    url: jdbc:postgresql://dpg-cr9iqo8gph6c73d0jpp0-a:5432/db_evpj?password=ORqFjIYBdeVO8JVdBGgAs2kkJH9mGqpx&user=db_evpj_user
-    username: db_evpj_user
+    password: NF0jVnKzmSaURvBVAPTLm6g5qrbJOeP2
+    url: jdbc:postgresql://dpg-cruicqjtq21c738jba30-a:5432/dbtaskmanager_oi7f?password=NF0jVnKzmSaURvBVAPTLm6g5qrbJOeP2&user=dbtaskmanager_oi7f_user
+    username: dbtaskmanager_oi7f_user
