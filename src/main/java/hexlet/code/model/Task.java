@@ -1,6 +1,5 @@
 package hexlet.code.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -40,7 +39,7 @@ public class Task implements BaseEntity {
     private User assignee;
     @CreatedDate
     private LocalDate createdAt;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<Label> labels;
 
 
