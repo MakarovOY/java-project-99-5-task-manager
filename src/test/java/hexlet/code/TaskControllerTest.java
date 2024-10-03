@@ -135,7 +135,6 @@ public class TaskControllerTest {
         Label label = new Label();
         label.setName("test");
         labelRepository.save(label);
-
         TaskCreateDTO testTask = new TaskCreateDTO();
         testTask.setTitle("test");
         testTask.setAssigneeId(JsonNullable.of(testUser.getId()));
