@@ -16,13 +16,10 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class DataInitializer implements ApplicationRunner {
 
-
     private UserRepository userRepository;
-
     private final CustomUserDetailsService userService;
     private final TaskStatusService taskStatusService;
     private final LabelRepository labelRepository;
-
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -65,7 +62,5 @@ public class DataInitializer implements ApplicationRunner {
         Label labelBug = new Label();
         labelBug.setName("bug");
         labelRepository.save(labelBug);
-
     }
-
 }

@@ -20,12 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/api/labels")
-public class LabelController {
-    private final LabelService labelService;
+public class LabelController { private final LabelService labelService;
 
     @GetMapping()
     public ResponseEntity<List<LabelDTO>> getAll() {

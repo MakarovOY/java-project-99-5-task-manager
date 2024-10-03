@@ -3,16 +3,20 @@ package hexlet.code;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import hexlet.code.mapper.UserMapper;
-import hexlet.code.repository.TaskRepository;
-import hexlet.code.repository.UserRepository;
+
+import hexlet.code.mapper.LabelMapper;
+import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
+import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
-import org.instancio.Instancio;
+import hexlet.code.repository.UserRepository;
+import hexlet.code.util.ModelGenerator;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,49 +24,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
+
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import hexlet.code.model.User;
-import hexlet.code.util.ModelGenerator;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerTest {
+public class LabelControllerTest {
     @Autowired
     private WebApplicationContext wac;
-
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ObjectMapper om;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private TaskRepository taskRepository;
     @Autowired
-    private LabelRepository labelRepository;
+    private UserRepository userRepository;
     @Autowired
     private TaskStatusRepository statusRepository;
-
     @Autowired
-    private ModelGenerator modelGenerator;
-
-    private User testUser;
-
-
-    private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor token;
+    private LabelRepository labelRepository;
+    Label testLabel;
 
     @BeforeEach
     public void setUp() {
@@ -70,11 +62,9 @@ public class UserControllerTest {
                 .defaultResponseCharacterEncoding(StandardCharsets.UTF_8)
                 .apply(springSecurity())
                 .build();
-        token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
-
-        testUser = Instancio.of(modelGenerator.getUserModel())
-                .create();
-        userRepository.save(testUser);
+        testLabel = new Label();
+        testLabel.setName("test");
+        labelRepository.save(testLabel);
     }
 
     @AfterEach
@@ -82,12 +72,12 @@ public class UserControllerTest {
         taskRepository.deleteAll();
         statusRepository.deleteAll();
         labelRepository.deleteAll();
-        userRepository.delete(testUser);
+        userRepository.deleteAll();
     }
 
     @Test
     public void testIndex() throws Exception {
-        var result = mockMvc.perform(get("/api/users").with(jwt()))
+        var result = mockMvc.perform(get("/api/labels").with(jwt()))
                 .andExpect(status().isOk())
                 .andReturn();
         var body = result.getResponse().getContentAsString();
@@ -96,71 +86,69 @@ public class UserControllerTest {
 
     @Test
     public void testShow() throws Exception {
-        var request = get("/api/users/" + testUser.getId()).with(jwt());
+        var request = get("/api/labels/" + testLabel.getId()).with(jwt());
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andReturn();
         var body = result.getResponse().getContentAsString();
 
         assertThatJson(body).and(
-                v -> v.node("firstName").isEqualTo(testUser.getFirstName()),
-                v -> v.node("email").isEqualTo(testUser.getEmail())
+                v -> v.node("name").isEqualTo(testLabel.getName())
         );
     }
 
     @Test
     public void testCreate() throws Exception {
-        var data = Instancio.of(modelGenerator.getUserModel())
-                .create();
+        var data = new Label();
+        data.setName("testLabelCreate");
 
-        var request = post("/api/users")
-                .with(token)
+        var request = post("/api/labels")
+                .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(data));
         mockMvc.perform(request)
                 .andExpect(status().isCreated());
 
-        var user = userRepository.findByEmail(data.getEmail()).get();
+        var label = labelRepository.findByName(data.getName()).get();
 
-        assertNotNull(user);
-        assertThat(user.getFirstName()).isEqualTo(data.getFirstName());
-        assertThat(user.getLastName()).isEqualTo(data.getLastName());
-
+        assertNotNull(label);
+        assertThat(label.getName()).isEqualTo(data.getName());
     }
 
     @Test
     public void testUpdate() throws Exception {
-        var testUser2 = Instancio.of(modelGenerator.getUserModel())
-                .create();
-        userRepository.save(testUser2);
-        var token2 = jwt().jwt(builder -> builder.subject(testUser2.getEmail()));
-        var data = new HashMap<>();
-        data.put("firstName", "newFirstName");
+        Map data = Map.of("name", "newName");
 
-        var request = put("/api/users/" + testUser2.getId())
-                .with(token2)
+        var request = put("/api/labels/" + testLabel.getId())
+                .with(jwt())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(data));
 
         mockMvc.perform(request)
                 .andExpect(status().isOk());
 
-        var user = userRepository.findById(testUser2.getId()).get();
-        assertThat(user.getFirstName()).isEqualTo(("newFirstName"));
+        var status = labelRepository.findById(testLabel.getId()).get();
+        assertThat(status.getName()).isEqualTo(("newName"));
     }
 
     @Test
     public void testIndexWithoutAuth() throws Exception {
-        var result = mockMvc.perform(get("/api/users"))
+        var result = mockMvc.perform(get("/api/labels"))
                 .andExpect(status().isUnauthorized());
-
     }
 
     @Test
-    public void testShowWithoutAuth() throws Exception {
-        var request = get("/api/users/" + testUser.getId());
-        var result = mockMvc.perform(request)
-                .andExpect(status().isUnauthorized());
-    }
-}
+    public void testDelete() throws Exception {
+        var test = new Label();
+        test.setName("testLabelDelete");
 
+        labelRepository.save(test);
+
+        var request = delete("/api/labels/" + test.getId())
+                .with(jwt());
+        mockMvc.perform(request)
+                .andExpect(status().isNoContent());
+        Assertions.assertThat(labelRepository.existsById(test.getId())).isFalse();
+    }
+
+}

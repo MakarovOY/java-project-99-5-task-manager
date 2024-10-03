@@ -29,8 +29,6 @@ public class TaskSpecification {
                 status == null ? cb.conjunction() : cb.equal(root.get("taskStatus").get("slug"), status);
     }
 
-
-
     private Specification<Task> withLabelId(Long labelId) {
         return (root, query, cb) ->
                 labelId == null ? cb.conjunction() : cb.equal(root.get("labels").get("id"), labelId);

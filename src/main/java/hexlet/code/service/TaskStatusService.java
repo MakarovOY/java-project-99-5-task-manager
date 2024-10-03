@@ -1,6 +1,5 @@
 package hexlet.code.service;
 
-
 import hexlet.code.dto.TaskStatusCreatedDTO;
 import hexlet.code.dto.TaskStatusDTO;
 import hexlet.code.dto.TaskStatusUpdateDTO;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 
 @RequiredArgsConstructor
 @Service

@@ -32,7 +32,7 @@ public class User implements UserDetails, BaseEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     @Email

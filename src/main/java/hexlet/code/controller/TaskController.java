@@ -6,7 +6,6 @@ import hexlet.code.dto.TaskDTO;
 import hexlet.code.dto.TaskParamsDTO;
 import hexlet.code.dto.TaskUpdateDTO;
 import hexlet.code.service.TaskService;
-import hexlet.code.specification.TaskSpecification;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,6 @@ import java.util.List;
 @RequestMapping(path = "/api/tasks")
 public class TaskController {
     private final TaskService taskService;
-
 
     @GetMapping()
     public ResponseEntity<List<TaskDTO>> getAll(TaskParamsDTO params) {

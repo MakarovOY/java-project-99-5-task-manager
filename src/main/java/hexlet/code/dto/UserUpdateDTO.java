@@ -12,8 +12,6 @@ public class UserUpdateDTO {
     private JsonNullable<String> email;
     @Size(min = 3)
     private JsonNullable<String> password;
-
     private JsonNullable<String> firstName;
-
     private JsonNullable<String> lastName;
 }

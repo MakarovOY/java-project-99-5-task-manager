@@ -1,6 +1,5 @@
 package hexlet.code.service;
 
-
 import hexlet.code.dto.TaskCreateDTO;
 import hexlet.code.dto.TaskDTO;
 import hexlet.code.dto.TaskParamsDTO;
@@ -13,14 +12,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @RequiredArgsConstructor
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
     private final TaskSpecification taskSpecification;
-
 
     public List<TaskDTO> getAll(TaskParamsDTO params) {
         var taskSpec = taskSpecification.build(params);
