@@ -24,16 +24,13 @@ public class TaskStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull
     @Size(min = 1)
     private String name;
-
     @Column(unique = true)
     @NotNull
     @Size(min = 1)
     private String slug;
-
     @CreatedDate
     private LocalDate createdAt;
 

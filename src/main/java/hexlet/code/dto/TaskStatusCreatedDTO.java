@@ -15,7 +15,6 @@ public class TaskStatusCreatedDTO {
     @NotNull
     @Size(min = 1)
     private String name;
-
     @NotNull
     @Size(min = 1)
     private String slug;

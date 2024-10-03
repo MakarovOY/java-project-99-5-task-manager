@@ -15,11 +15,9 @@ import java.util.List;
 public class TaskCreateDTO {
 
     private JsonNullable<Integer> index;
-
     @NotNull
     @Size(min = 1)
     private String title;
-
     private JsonNullable<String> content;
     @JsonProperty("status")
     @NotNull
