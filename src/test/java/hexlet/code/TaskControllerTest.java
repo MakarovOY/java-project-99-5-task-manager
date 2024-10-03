@@ -127,25 +127,25 @@ public class TaskControllerTest {
                 .create();
         userRepository.save(user);
 
-        TaskStatus testStatus = new TaskStatus();
-        testStatus.setName("test");
-        testStatus.setSlug("test");
-        statusRepository.save(testStatus);
+        TaskStatus testSt = new TaskStatus();
+        testSt.setName("test");
+        testSt.setSlug("test");
+        statusRepository.save(testSt);
 
         Label label = new Label();
         label.setName("test");
         labelRepository.save(label);
-        TaskCreateDTO testTask = new TaskCreateDTO();
-        testTask.setTitle("test");
-        testTask.setAssigneeId(JsonNullable.of(testUser.getId()));
-        testTask.setSlug(testStatus.getSlug());
-        testTask.setTaskLabelIds(JsonNullable.of(List.of(label.getId())));
+        TaskCreateDTO testTsk = new TaskCreateDTO();
+        testTsk.setTitle("test");
+        testTsk.setAssigneeId(JsonNullable.of(testUser.getId()));
+        testTsk.setSlug(testSt.getSlug());
+        testTsk.setTaskLabelIds(JsonNullable.of(List.of(label.getId())));
 
         var token2 = jwt().jwt(builder -> builder.subject(user.getEmail()));
 
         var request = post("/api/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(om.writeValueAsString(testTask))
+                .content(om.writeValueAsString(testTsk))
                 .with(token2);
 
         var result = mockMvc.perform(request).andExpect(status().isCreated()).andReturn();
@@ -154,7 +154,7 @@ public class TaskControllerTest {
         assertThat(taskRepository.findById(id)).isPresent();
         var taskFromRepo = taskRepository.findById(id).get();
         assertThat(taskFromRepo).isNotNull();
-        assertThat(taskFromRepo.getName()).isEqualTo(testTask.getTitle());
+        assertThat(taskFromRepo.getName()).isEqualTo(testTsk.getTitle());
 
     }
 
