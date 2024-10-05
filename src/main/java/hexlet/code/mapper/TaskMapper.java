@@ -62,19 +62,7 @@ public abstract class TaskMapper {
         return taskStatusRepository.findBySlug(slug)
                 .orElseThrow(() -> new ResourceNotFoundException("TaskStatus with slug " + slug + " not found"));
     }
-//    @Named("labelIdsToLabels")
-//    public Set<Label> labelIdToLabel(Set<Long> labelIds) {
-//        return labelIds == null ? new HashSet<>()
-//                : labelRepository.findByIdIn(labelIds);
-//    }
-//
-//    @Named("labelsToLabelsIds")
-//    public Set<Long> labelToLabelId(Set<Label> labels) {
-//        return labels == null ? new HashSet<>()
-//                : labels.stream()
-//                .map(Label::getId)
-//                .collect(Collectors.toSet());
-//    }
+
     @Named("labelIdsToLabels")
     public List<Label> labelIdToLabel(List<Long> labelIds) {
         return labelIds == null ? new ArrayList<>()
@@ -88,6 +76,4 @@ public abstract class TaskMapper {
                 .map(Label::getId)
                 .collect(Collectors.toList());
     }
-
-
 }

@@ -19,8 +19,8 @@ public class TaskCreateDTO {
     @Size(min = 1)
     private String title;
     private JsonNullable<String> content;
-    @JsonProperty("status")
     @NotNull
+    @JsonProperty("status")
     private String slug;
     @JsonProperty("assignee_id")
     private JsonNullable<Long> assigneeId;
