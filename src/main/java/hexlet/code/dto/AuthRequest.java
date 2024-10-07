@@ -1,10 +1,10 @@
 package hexlet.code.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class AuthRequest {
     private String username;
     private String password;

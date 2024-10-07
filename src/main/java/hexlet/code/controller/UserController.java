@@ -7,6 +7,7 @@ import hexlet.code.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,16 +37,18 @@ public class UserController {
     }
     @GetMapping("/{id}")
     public UserDTO show(@PathVariable Long id) {
-        return userService.findById(id);
+        return userService.show(id);
     }
+    @PreAuthorize("@userRepository.findById(#id).get().getEmail() == authentication.getName()")
     @PutMapping("/{id}")
     public UserDTO update(@Valid @RequestBody UserUpdateDTO data, @PathVariable Long id) {
         return userService.update(data, id);
     }
 
+    @PreAuthorize("@userRepository.findById(#id).get().getEmail() == authentication.getName()")
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void destroy(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         userService.delete(id);
     }
 }

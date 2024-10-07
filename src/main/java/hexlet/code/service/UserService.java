@@ -30,7 +30,7 @@ public class UserService {
         return userMapper.map(user);
     }
 
-    public UserDTO findById(Long id) {
+    public UserDTO show(Long id) {
         var user =  userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not Found: " + id));
         return userMapper.map(user);
