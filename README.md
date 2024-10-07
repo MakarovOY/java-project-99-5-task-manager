@@ -5,5 +5,3 @@
 
 ## Description
 Task Manager is a task management system similar to http://www.redmine.org /. It allows you to set tasks, assign performers and change their statuses. Registration and authentication are required to work with the system.
-
-https://java-project-99-zadt.onrender.com
