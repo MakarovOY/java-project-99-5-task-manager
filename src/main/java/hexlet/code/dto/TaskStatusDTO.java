@@ -1,12 +1,11 @@
 package hexlet.code.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class TaskStatusDTO {
     private Long id;
     private String name;

@@ -2,11 +2,11 @@ package hexlet.code.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.openapitools.jackson.nullable.JsonNullable;
-@Setter
-@Getter
+@Data
+@NoArgsConstructor
 public class UserUpdateDTO {
     @Email
     private JsonNullable<String> email;
