@@ -5,8 +5,6 @@ WORKDIR /
 
 COPY /src src
 
-ENV JAVA_OPTS "-Xmx512M -Xms512M"
-
 COPY / .
 
 RUN gradle installDist
